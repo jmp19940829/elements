@@ -508,6 +508,11 @@ namespace cycfi { namespace elements
       gtk_window_resize(GTK_WINDOW(_view->widget), p.x, p.y);
    }
 
+   float base_view::hdpi_scale() const
+   {
+      return 1.0f; // This is already done properly by the gtk->cairo context
+   }
+
    void base_view::refresh()
    {
       auto x = gtk_widget_get_allocated_width(_view->widget);
@@ -517,12 +522,11 @@ namespace cycfi { namespace elements
 
    void base_view::refresh(rect area)
    {
-      auto scale = 1; // get_scale(_view->widget);
       gtk_widget_queue_draw_area(_view->widget,
-         area.left * scale,
-         area.top * scale,
-         area.width() * scale,
-         area.height() * scale
+         area.left,
+         area.top,
+         area.width(),
+         area.height()
       );
    }
 
